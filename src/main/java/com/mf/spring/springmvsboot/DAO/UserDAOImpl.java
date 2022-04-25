@@ -14,42 +14,42 @@ import java.util.Optional;
 public class UserDAOImpl implements UserDAO {
 
     @PersistenceContext
-    private final EntityManager em;
+    private final EntityManager entityManager;
 
     public UserDAOImpl(EntityManager em) {
-        this.em = em;
+        this.entityManager = em;
     }
 
     @Override
     public List<User> getAllUsers() {
-        return em.createQuery("select distinct u from User u left join fetch u.roles", User.class).getResultList();
+        return entityManager.createQuery("select distinct u from User u left join fetch u.roles", User.class).getResultList();
     }
 
     @Override
     public void saveUser(User user) {
-        em.persist(user);
+        entityManager.persist(user);
     }
 
     @Override
     public void updateUser(User user) {
-        em.merge(user);
+        entityManager.merge(user);
     }
 
     @Override
     public User getUser(Long id) {
-        TypedQuery<User> tq = em.createQuery("select distinct u from User u left join fetch u.roles WHERE u.id=:param", User.class);
+        TypedQuery<User> tq = entityManager.createQuery("select distinct u from User u left join fetch u.roles WHERE u.id=:param", User.class);
         return Optional.of(tq.setParameter("param", id).getSingleResult()).orElse(null);
     }
 
     @Override
     public void deleteUser(Long id) throws EntityNotFoundException {
-        User user = em.getReference(User.class, id);
-        em.remove(user);
+        User user = entityManager.getReference(User.class, id);
+        entityManager.remove(user);
     }
 
     @Override
     public User getUserByUsername(String name) {
-        TypedQuery<User> tq = em.createQuery("select distinct u from User u left join fetch u.roles WHERE u.username=:param", User.class);
+        TypedQuery<User> tq = entityManager.createQuery("select distinct u from User u left join fetch u.roles WHERE u.username=:param", User.class);
         return tq.setParameter("param", name).getSingleResult();
     }
 }

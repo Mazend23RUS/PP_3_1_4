@@ -53,12 +53,12 @@ public class DataBaseInit {
         Role roleAdmin = roleService.getRoleByName(StandartRoles.ROLE_ADMIN.name());
 
         userService.saveUsers(
-                new User("ADMIN", "ADMIN", "1",
-                        "80333184264", "a1@a")
+                new User("ADMIN", "ADMINOV", "1",
+                        "89114527060", "bboy23@mail.ru")
                         .addRolesToUser(roleUser, roleAdmin),
 
-                new User("USER", "USER", "1",
-                        "80299373766", "a2@a")
+                new User("USER", "USEROV", "1",
+                        "89114769106", "Mazend2013@gmail.com")
                         .addRoleToUser(roleUser));
     }
 

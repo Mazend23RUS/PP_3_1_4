@@ -12,36 +12,36 @@ import java.util.List;
 public class RoleDAOImpl implements RoleDAO {
 
     @PersistenceContext
-    private final EntityManager em;
+    private final EntityManager entityManager;
 
     public RoleDAOImpl(EntityManager em) {
-        this.em = em;
+        this.entityManager = em;
     }
 
     @Override
     public List<Role> getAllRoles() {
-        return em.createQuery("select r from Role r", Role.class).getResultList();
+        return entityManager.createQuery("select r from Role r", Role.class).getResultList();
     }
 
     @Override
     public void saveRole(Role role) {
-        em.merge(role);
+        entityManager.merge(role);
     }
 
     @Override
     public Role getRole(Long id) {
-        return em.find(Role.class, id);
+        return entityManager.find(Role.class, id);
     }
 
     @Override
     public Role getRoleByName(String name) {
-        TypedQuery<Role> tq = em.createQuery("select r from Role as r where r.role=:param", Role.class);
+        TypedQuery<Role> tq = entityManager.createQuery("select r from Role as r where r.role=:param", Role.class);
         return tq.setParameter("param", name).getResultList().stream().findFirst().orElse(null);
     }
 
     @Override
     public void deleteRole(Long id) {
-        Role role = em.getReference(Role.class, id);
-        em.remove(role);
+        Role role = entityManager.getReference(Role.class, id);
+        entityManager.remove(role);
     }
 }
